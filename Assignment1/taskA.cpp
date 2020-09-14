@@ -10,6 +10,7 @@
 #include <limits>  // numeric_limits<std::streamsize> for validations
 #include <memory>
 #include <vector>
+#include <cstring>
 
 int gSIZE = 10;
 
@@ -32,6 +33,8 @@ int main(void)
     
     char * newArray = deleteRepeat(repeatArray);
     // std::cout << *(repeatArray) << std::endl;
+
+    return 0;
 }
 
 char * deleteRepeat(char * pOriginalCharArray)
