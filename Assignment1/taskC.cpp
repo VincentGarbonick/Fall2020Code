@@ -39,6 +39,9 @@ int main(void)
     return 0;
 }
 
+// returns a function pointer based on input string 
+// precondition: input string 
+// postcondition: a function pointer to a certain function
 void (* callIt(std::string name))()
 {
     void (* pCallbackPointer)(); 
@@ -76,36 +79,54 @@ void (* callIt(std::string name))()
     return pCallbackPointer;
 }
 
+// returns the color stated in the function name 
+// precondition: none 
+// postcondition: none
 void yellow()
 {
     std::cout << "Colonel Mustard is yellow." << std::endl;
     return;
 }
 
+// returns the color stated in the function name 
+// precondition: none 
+// postcondition: none
 void red()
 {
     std::cout << "Miss Scarlet is red." << std::endl;
     return;
 }
 
+// returns the color stated in the function name 
+// precondition: none 
+// postcondition: none
 void purple()
 {
     std::cout << "Professor Plum is purple." << std::endl;
     return;
 }
 
+// returns the color stated in the function name 
+// precondition: none 
+// postcondition: none
 void blue()
 {
     std::cout << "Mrs. Peacock is blue." << std::endl;
     return;
 }
 
+// returns the color stated in the function name 
+// precondition: none 
+// postcondition: none
 void white()
 {
     std::cout << "Mrs. White is white." << std::endl;
     return;
 }
 
+// returns the color stated in the function name 
+// precondition: none 
+// postcondition: none
 void green()
 {
     std::cout << "Rev Green is green." << std::endl;
