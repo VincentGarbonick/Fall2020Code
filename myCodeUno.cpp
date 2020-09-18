@@ -695,14 +695,41 @@ void taxTaker(TaxPayer * citizen)
     int randomIncome;
     float randomRate; 
     
+    bool foundCorrectIncome = false; 
+    bool foundCorrectRate = false;
+
     for(int i = 0; i < gSIZE; i++)
     {
-        
-        randomIncome = rand()%(50000-5000 + 1) + 5000;
+                
+        do
+        {
+          
+          randomIncome = rand()%(50000-5000 + 1) + 5000;
 
+          if(randomIncome >= 5000 && randomIncome <= 50000)
+          {
+            foundCorrectIncome = true;
+          }
+
+        } while (!foundCorrectIncome);
+        
+        foundCorrectIncome = false;
+
+        do
+        {
+          
         tempIntegerValue = ( rand()%(990-1 + 1) + 1 );        
         randomRate = tempIntegerValue/100;
-        
+
+          if(randomRate >= 0.01 && randomRate <= 9.9)
+          {
+            foundCorrectRate = true;
+          }
+
+        } while (!foundCorrectRate);
+
+        foundCorrectRate = false;
+
         // std::cout << "RandIncome:" << randomIncome << std::endl;
         // std::cout << "RandRate:" << randomRate << "\n" << std::endl;
         
@@ -710,7 +737,6 @@ void taxTaker(TaxPayer * citizen)
         (citizen+i)->setIncome(randomIncome);
         (citizen+i)->setTaxRate(randomRate);
         (citizen+i)->setTaxes( ( (randomRate/100) * randomIncome ) );
-
     }
 
     return;
