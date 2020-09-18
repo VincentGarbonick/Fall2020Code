@@ -384,6 +384,10 @@ taskE()
 // PLACE CODE HERE FOR TASK A
 // *************************************************
 // TASK A CODE
+
+// deleteRepeats deletes repeats in a dynamic arrray
+// precondition: dynamically array and reference to a short integer
+// postcondition: unique pointer to new dynamic array and number of repeats 
  std::unique_ptr<char[]> deleteRepeats(char * pOriginalCharArray, short int * repeaters)
 {
 
@@ -393,6 +397,7 @@ taskE()
     std::vector<char> illegalChar; // where we store the chracters that already exist in the dynamic array
     char dereferencedChar;
     bool foundCharFlag;
+    *repeaters = 0;
 
     // go through each element in the original array
     for(int i =0; i < gSIZE; i++)
@@ -402,7 +407,8 @@ taskE()
 
         if(foundCharFlag == true)
         {
-            // do nothing and ignore
+            // do nothing and increment repeaters
+            (*repeaters) = (*repeaters) + 1;
         }
         // if we did not find the character in the illgal array, that means it's not a repeat and we can add it to the illegal array
         else if(foundCharFlag == false)
@@ -418,14 +424,12 @@ taskE()
     //pNewCharArray = new char [illegalChar.size()];
 
     std::unique_ptr<char[]> pNewCharArray (new char[illegalChar.size()]); // pointer to new character array
+    // std::unique_ptr<char[]> pNewCharArray (new char[gSIZE - *repeaters]); // pointer to new character array
     // copy values over from illegalchar
     for(int i = 0; i < illegalChar.size(); i++)
     {        
         *(pNewCharArray.get() + i) = illegalChar[i];
     }
-
-    
-    *repeaters = illegalChar.size();
 
     return pNewCharArray;
 }
@@ -444,6 +448,7 @@ bool checkIllegal(char checkChar, std::vector<char> checkVector)
         if(checkVector[i] == checkChar)
         {
             foundflag = true;
+
             break;
         }        
     }
@@ -470,8 +475,6 @@ void gradeIt(char * pGradeArray, std::string studentName)
     printIt(pTempStudent);
 
     // clean up dynamically allocated information
-    delete [] pTempStudent->pGradeArray;
-    delete [] pGradeArray;
     delete pTempStudent;
 
     return;
@@ -527,6 +530,8 @@ void (* callIt(std::string name))()
         std::cout << "Invalid input type.." << std::endl;
         pCallbackPointer = nullptr;
     }
+
+    pCallbackPointer();
 
     return pCallbackPointer;
 }
