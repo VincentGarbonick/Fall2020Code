@@ -14,7 +14,7 @@
 
 int gSIZE = 10;
 
-char * deleteRepeat(char*);
+std::unique_ptr<char> deleteRepeat(char*);
 bool checkIllegal(char, std::vector<char>);
 
 int main(void)
@@ -31,17 +31,17 @@ int main(void)
     * (repeatArray + 8)= 'a';
     * (repeatArray + 9)= 'z';
     
-    char * newArray = deleteRepeat(repeatArray);
+     std::unique_ptr<char> newArray = deleteRepeat(repeatArray);
     // std::cout << *(repeatArray) << std::endl;
 
     return 0;
 }
 
-char * deleteRepeat(char * pOriginalCharArray)
+ std::unique_ptr<char> deleteRepeat(char * pOriginalCharArray)
 {
 
 
-    char * pNewCharArray; // pointer to new character array
+   
     int newSize = 0; // size of the new array we are going to get 
     std::vector<char> illegalChar; // where we store the chracters that already exist in the dynamic array
     char dereferencedChar;
@@ -68,14 +68,16 @@ char * deleteRepeat(char * pOriginalCharArray)
     };
 
     // allocate memory for new character array
-    pNewCharArray = new char [illegalChar.size()];
+    //pNewCharArray = new char [illegalChar.size()];
 
+    std::unique_ptr<char> pNewCharArray (new char[illegalChar.size()]); // pointer to new character array
     // copy values over from illegalchar
     for(int i = 0; i < illegalChar.size(); i++)
-    {
-        *(pNewCharArray + i)= illegalChar[i];
+    {        
+        *(pNewCharArray.get() + i) = illegalChar[i];
     }
 
+    //return pNewCharArray;
     return pNewCharArray;
 }
 
