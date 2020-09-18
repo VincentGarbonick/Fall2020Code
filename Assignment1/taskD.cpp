@@ -97,7 +97,7 @@ std::string Games::getName()
 // postcondition: return the object type
 std::string Games::getType()
 {
-    return name;
+    return type;
 }
 
 // getPrice returns the value in the member variable price
