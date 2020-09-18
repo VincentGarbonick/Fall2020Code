@@ -14,6 +14,8 @@
 #include <cstring>
 #include <stdio.h>
 
+int gSIZE = 10;
+
 
 class TaxPayer 
 {
@@ -33,9 +35,66 @@ class TaxPayer
         void  setTaxes(float);
 };
 
+void taxTaker(TaxPayer * citizen);
+void taxPrint(TaxPayer * citizen);
+
 int main(void)
 {
+    
+    TaxPayer *citizens = new TaxPayer[gSIZE];
+    taxTaker(citizens);
+    taxPrint(citizens);
+
+    std::cout << "end of task E" << std::endl;
+
     return 0;
+}
+
+
+
+// taxtaker randomly instantiates and populates a dynamic array of TaxPayers
+// Precon: pointer to dynamic array of taxpayer
+// postcon: randomply populated taxpayer objects with taxes calculated 
+void taxTaker(TaxPayer * citizen)
+{
+    float tempIntegerValue; 
+    int randomIncome;
+    float randomRate; 
+    
+    for(int i = 0; i < gSIZE; i++)
+    {
+        
+        randomIncome = rand()%(50000-5000 + 1) + 5000;
+
+        tempIntegerValue = ( rand()%(990-1 + 1) + 1 );        
+        randomRate = tempIntegerValue/100;
+        
+        // std::cout << "RandIncome:" << randomIncome << std::endl;
+        // std::cout << "RandRate:" << randomRate << "\n" << std::endl;
+        
+        // set randomly calculated values
+        (citizen+i)->setIncome(randomIncome);
+        (citizen+i)->setTaxRate(randomRate);
+        (citizen+i)->setTaxes( ( (randomRate/100) * randomIncome ) );
+
+    }
+
+    return;
+} 
+
+
+// taxPrint: prints out the tax rate for all taxpayers in the dynamic array
+// precon: pointer to dynamic array of taxpayer
+// postcon: none 
+void taxPrint(TaxPayer * citizen)
+{
+
+    for(int i = 0; i < gSIZE; i++)
+    {
+        std::cout << "Taxes for citizen " << i << ": " << (citizen + i)->getTaxes() << std::endl;
+    }
+
+    return;
 }
 
 // getTaxRate returns the value in the member variable taxRate
