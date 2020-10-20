@@ -389,7 +389,7 @@ taskA()
     // to s1.
     s1 += s2;
   }
-  /*
+  
   // Assignment to a string. After assignment, the object on the left (s1)
   // shall be equal to the string literal on the right.
   {
@@ -397,12 +397,14 @@ taskA()
     s1 = "hello";
     assert(!strcmp(s1.data(), "hello"));
   }
+
+  
   // self assign
   {
     myString s1 = "hello";
     s1 = s1;
   }
-
+  
   // A member function to determine if a string is empty. Returns true
   // if s1 is the empty string. The empty() function shall not modify
   // the object s1 (i.e., the member function must be const).
@@ -413,6 +415,7 @@ taskA()
     assert(s2.empty());
   }
 
+  /*
   // Character access. Support reading and writing of characters using
   // the subscript operator. Both operators take a std::size_t argument n,
   // such that n >= 0 and n < size(). You must assert that the index is
@@ -787,7 +790,6 @@ myString::myString(const char * cPointer, size_t size)
 myString& myString::operator=(const char* copyString)
 {
   
-  myString newMyString; 
   int tempLength = 0;
 
   while(*(copyString + tempLength) != '\0')
@@ -796,44 +798,70 @@ myString& myString::operator=(const char* copyString)
   }
 
   // size for new string pointer
-  newMyString.strLength = tempLength;
+  this->strLength = tempLength;
 
   // contents for new string 
-  newMyString.stringVar = new char[tempLength + 1];
+  this->stringVar = new char[tempLength + 1];
 
   for(int i = 0; i <= strLength; i++)
   {
-      *(newMyString.stringVar + i) = *(copyString + i);
+      *(this->stringVar + i) = *(copyString + i);
   }
 
-  std::cout << "Equals assignement operator used (literal): " << newMyString.stringVar << std::endl;
+  std::cout << "Equals assignement operator used (literal): " << this->stringVar << std::endl;
 
-  return newMyString;
+  return *this;
 }
 
 myString& myString::operator=(const myString &oldString)
 {
-
-  myString newMyString; 
-
-  newMyString.strLength = oldString.size();
-
-  newMyString.stringVar = new char[newMyString.strLength + 1];
-
-  for(int i = 0; i <= newMyString.strLength; i++)
+  if(this != &oldString)
   {
-    *(newMyString.stringVar + i) = *(oldString.data() +i);
+  this->strLength = oldString.size();
+
+  this->stringVar = new char[this->strLength + 1];
+
+  for(int i = 0; i <= this->strLength; i++)
+  {
+    *(this->stringVar + i) = *(oldString.data() +i);
   }
 
-  std::cout << "Equals assignement operator used (object): " << newMyString.stringVar << std::endl;
-
-  return newMyString;
+  std::cout << "Equals assignement operator used (object): " << this->stringVar << std::endl;
+  }
+  else 
+  {
+    std::cout << "Self assignement detected..." << std::endl;
+  }
+  return *this;
 
 }
 
  myString& myString::operator+=(const myString &oldString)
  {
-   
+
+   this->strLength = this->strLength + oldString.strLength;
+
+   this->stringVar = new char[strLength + 1];
+
+  int i = 0;
+  while(i < oldString.strLength)
+  {
+    *(this->stringVar + i) = *(oldString.stringVar + i);
+    i++;
+  }
+
+  int j = 0;
+  while(j <= oldString.strLength)
+  {
+    *(this->stringVar + i) = *(oldString.stringVar + j);
+    i++;
+    j++;
+  }
+  
+  std::cout << "Plus Equals assignement operator used (object): " << this->stringVar << std::endl;
+  
+
+  return *this;
  }
 
 
@@ -844,7 +872,7 @@ size_t myString::size() const
 
 bool myString::empty() const
 {
-  if(*stringVar == '\0')
+  if(*stringVar == '\0' && strLength == 0)
   {
     return 1;
   }
