@@ -23,37 +23,47 @@
 // PLACE CODE HERE FOR TASK A
 // *************************************************
 
+
+
 class myString
 {
   public:
+
     myString(); // Default construction; the default value shall be the empty string.
 
     myString(const char* ); //for initializing with a string
     //Pre: pointer must not be a null pointer
     //Post: will initialize an object to a string literal
 
+    
     myString(const char*, std::size_t); //initialization by part of a string literal
     //Pre: c-string must not be null and have size charAmount
     //Post: will initialize object to the charAmount of characters in a string literal
 
+    
     myString(const myString &); //copy constructor initializer
     //Pre: must accepts an object of the same type
     //Post: The initialized object will be equal to the original
 
+    /*
     myString(myString &&); //move constructor
+    */
 
     bool empty() const; //empty function to tell if a string is empty or not
     //Pre: none
     //Post: returns 1 for true and 0 for false and does not change string (1 is empty, 0 is not empty)
-
+    
+    
     std::size_t size() const; //size() function to return the length of a string
     //Pre: none
     //Post: return the lenght of a string not including the null terminator (does not change the string)
-
+    
+    
     char* data() const; //returns a raw c-string pointer
     //Pre: none
     //Post: returns a char pointer that holds the c-string
 
+    /*
     std::size_t find(char ) const; //returns the index of the first occurrence of the target char
     //Pre: accepts a valid char for the target the user wants to find
     //Post: returns index where the target first occurs or npos if not found
@@ -88,13 +98,24 @@ class myString
         delete [] stringVar;
         stringVar = nullptr;
     }
-
+    */
     // Defines the npos value.
     static constexpr std::size_t npos = -1;
+
   private:
+
+    // counts the size of our string, for internal use only 
+    // pre: a valid, non null character pointer
+    // post: integer value representing the size of the contents
+    short countString(char *);
+    short countString(const char *); // overload for constant characters
+
+    // this holds the contents of the "cstring"
     char* stringVar;
+    // this holds the length of the "cstring"
 	  short strLength;
 };
+
 
 // PLACE CODE HERE FOR TASK B
 // *************************************************
@@ -309,6 +330,7 @@ taskA()
     std::size_t n = s1.size();
   }
 
+  
   // string ctor
   {
     char const* str = "hello";
@@ -317,6 +339,7 @@ taskA()
     assert(strcmp(s.data(), str) == 0);
   }
 
+  
   // Raw C-string access, which returns the underlying array of
   // characters as a pointer. This member function shall not modify its
   // object.
@@ -325,6 +348,7 @@ taskA()
     char const* p1 = s1.data();
   }
 
+  
   // copy ctor
   // Initialization by a string literal. The initialized object (s1)
   // shall be equal to the string literal after initialization.
@@ -337,7 +361,7 @@ taskA()
     myString s2 = s1;
     assert(strcmp(s1.data(), s2.data()) == 0);
   }
-
+  /*
   // Initialization by a bounded C-string. The initialized object (s2)
   // shall be equal to the first n characters of the given C-string.
   // The C-string shall not be null and shall have at least length n.
@@ -464,7 +488,7 @@ taskA()
     myString s2 = "abcabc";
     assert(s1 == s2);
   }
-
+  */
   cout << "end of task A" << endl;
   cin.get();
 }
@@ -473,6 +497,8 @@ taskA()
 void
 taskB()
 {
+  std::cout << "task B" << std::endl;
+  /*
 // these are the test cases
   char str1[]  = "sriahc gab naeb evah emos";
   bool str2[]  = {0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0};
@@ -512,7 +538,7 @@ taskB()
      cout  << str3[i] << " " ;
   }
   cout << endl;
-
+  */
   cout << "end of task B" << endl;
   cin.get();
 }
@@ -520,6 +546,9 @@ taskB()
 void
 taskC()
 {
+
+  std::cout << "task C" << std::endl;
+  /*
 // these are the test cases
   char str1[]  = "sriahc gab naeb evah emos";
   bool str2[]  = {0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0};
@@ -561,6 +590,7 @@ taskC()
   cout << endl;
 
   cout << endl;
+  */
   cout << "end of task C" << endl;
   cin.get();
 }
@@ -568,6 +598,8 @@ taskC()
 void
 taskD()
 {
+  std::cout << "task D" << std::endl;
+  /*
 // these are the test cases
   char str1[]  = "sriahc gab naeb evah emos";
   bool str2[]  = {0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0};
@@ -606,7 +638,7 @@ taskD()
   {
      cout  << str3[i] << " " ;
   }
-
+  */
   cout << "end of task D" << endl;
   cin.get();
 }
@@ -614,6 +646,8 @@ taskD()
 void
 taskE()
 {
+  std::cout << "task E" << std::endl;
+  /*
   myLList list;
   // Append some values to the list.
   cout << "Appending to the list" << endl;
@@ -639,6 +673,7 @@ taskE()
   list.deleteNode("Zip");  // OH NO!
   list.deleteNode("Zippy");
   list.displayList();
+  */
   cout << "end of task E" << endl;
   cin.get();
 }
@@ -651,12 +686,86 @@ taskE()
 // *************************************************
 // TASK A CODE
 // the ostream overload is provided
+
+
+// this constructor is for initializing an empty "mystring"
+myString::myString()
+{
+  strLength = 0;
+  stringVar = new char[1];
+  *stringVar = '\0';
+}
+
+
+// this constructor is for initializing "mystring" with a const char*
+myString::myString(const char* cPointer)
+{
+  if(cPointer != NULL)
+  {  
+
+    // count length of string
+    strLength = 0;
+    while(*(cPointer + strLength) != '\0')
+    {
+      strLength++;
+    } 
+
+    // dynamically allocate space for stringVar
+    stringVar = new char[strLength + 1]; // add extra space for null terminator
+
+    // copy contents over
+    for(int i = 0; i < strLength; i++)
+    {
+      *(stringVar + i) = *(cPointer + i);
+      std::cout << *(stringVar +i) << std::endl;
+    }  
+  }
+
+  return;
+}
+
+// copy constructor 
+myString::myString(const myString &copyString)
+{
+  
+}
+
+// this constructor is for initializing only PART of a string, based on given size
+// remember, strings must be null terminated
+myString::myString(const char * cPointer, size_t size)
+{
+
+}
+
+size_t myString::size() const
+{
+  return strLength;
+}
+
+bool myString::empty() const
+{
+  if(*stringVar == '\0')
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+  
+}
+
+char* myString::data() const
+{
+  return stringVar;
+}
+/*
 std::ostream& operator<<(std::ostream& input, myString const& rhs)
 {
     input << rhs.stringVar;
     return input;
 }
-
+*/
 // PLACE CODE HERE FOR TASK B
 // *************************************************
 // TASK B CODE
@@ -674,6 +783,7 @@ std::ostream& operator<<(std::ostream& input, myString const& rhs)
 // TASK E CODE
 // Employee class methods
 // set first name
+/*
 void Employee::setFirstName(const std::string &name)
 {
   firstName = name; // no validation needed
@@ -711,4 +821,4 @@ int Employee::getMonthlySalary()
   return monthlySalary;
 }
 // myLList code should follow here
-
+*/
