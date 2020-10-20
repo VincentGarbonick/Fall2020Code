@@ -71,11 +71,15 @@ class myString
     char* substr(std::size_t, std::size_t) const; //makes a string out of an existing string
     //Pre: accepts a integer for the index to start at and charAmount for the amount of characters
     //Post: returns a char pointer for the new substring
-
+    
     friend std::ostream& operator<<(std::ostream&, myString const&); //overload << operator to output stringVar
+    */
+
+    
     myString& operator=(const char*); //overload assignment operator to take string literal
     myString& operator=(const myString &); //overload assignment operator to take in an object of the same type
     myString& operator+=(const myString &); //overload operator for the concatenation
+    /*
     char& operator[](const std::size_t ); //overload operator [] to return values and change values at index n
     const char& operator[](std::size_t ) const; //const version of [] overload
     const bool operator==(const myString &) const; //overload for ==
@@ -361,7 +365,8 @@ taskA()
     myString s2 = s1;
     assert(strcmp(s1.data(), s2.data()) == 0);
   }
-  /*
+
+  
   // Initialization by a bounded C-string. The initialized object (s2)
   // shall be equal to the first n characters of the given C-string.
   // The C-string shall not be null and shall have at least length n.
@@ -372,6 +377,7 @@ taskA()
     assert(!strcmp(s2.data(), "yo"));
   }
 
+  
   // Copy assignment. After assignment, the assigned object on the left (s1)
   // shall be equal to the value on the right (s2).
   {
@@ -383,7 +389,7 @@ taskA()
     // to s1.
     s1 += s2;
   }
-
+  /*
   // Assignment to a string. After assignment, the object on the left (s1)
   // shall be equal to the string literal on the right.
   {
@@ -713,29 +719,123 @@ myString::myString(const char* cPointer)
     // dynamically allocate space for stringVar
     stringVar = new char[strLength + 1]; // add extra space for null terminator
 
-    // copy contents over
-    for(int i = 0; i < strLength; i++)
+    // copy contents over, including terminator we do that by using equals 
+    for(int i = 0; i <= strLength; i++)
     {
       *(stringVar + i) = *(cPointer + i);
-      std::cout << *(stringVar +i) << std::endl;
+      // std::cout << *(stringVar +i) << std::endl;
     }  
+    std::cout << stringVar << std::endl;
   }
 
   return;
 }
 
 // copy constructor 
-myString::myString(const myString &copyString)
+myString::myString(const myString &copyMyString)
 {
-  
+  strLength = copyMyString.size();
+
+  stringVar = new char[strLength + 1];
+
+  for(int i = 0; i <= strLength; i++)
+  {
+    *(stringVar + i) = *(copyMyString.data() + i);
+  }
+
+  std::cout << "copied: " <<  stringVar << std::endl;
 }
 
 // this constructor is for initializing only PART of a string, based on given size
 // remember, strings must be null terminated
 myString::myString(const char * cPointer, size_t size)
 {
+  strLength = size;
+
+  stringVar = new char[strLength + 1];
+
+  for(int i = 0; i < strLength; i++)
+  {
+    *(stringVar + i) = *(cPointer + i);
+  }
+
+  // add null terminator
+  stringVar += '\0';
+
+  std::cout << "Partial init: " << stringVar << std::endl;
 
 }
+
+/*
+    myString& operator=(const char*); //overload assignment operator to take string literal
+    myString& operator=(const myString &); //overload assignment operator to take in an object of the same type
+    myString& operator+=(const myString &); //overload operator for the concatenation
+
+     // Copy assignment. After assignment, the assigned object on the left (s1)
+  // shall be equal to the value on the right (s2).
+  {
+    myString s1 = "hello";
+    myString s2;
+    s2 = s1;
+    assert(strcmp(s1.data(), s2.data()) == 0);
+    // Compound addition/assignment (concatenation). Appends the string s2
+    // to s1.
+    s1 += s2;
+  }
+*/
+
+myString& myString::operator=(const char* copyString)
+{
+  
+  myString newMyString; 
+  int tempLength = 0;
+
+  while(*(copyString + tempLength) != '\0')
+  {
+    tempLength++;
+  }
+
+  // size for new string pointer
+  newMyString.strLength = tempLength;
+
+  // contents for new string 
+  newMyString.stringVar = new char[tempLength + 1];
+
+  for(int i = 0; i <= strLength; i++)
+  {
+      *(newMyString.stringVar + i) = *(copyString + i);
+  }
+
+  std::cout << "Equals assignement operator used (literal): " << newMyString.stringVar << std::endl;
+
+  return newMyString;
+}
+
+myString& myString::operator=(const myString &oldString)
+{
+
+  myString newMyString; 
+
+  newMyString.strLength = oldString.size();
+
+  newMyString.stringVar = new char[newMyString.strLength + 1];
+
+  for(int i = 0; i <= newMyString.strLength; i++)
+  {
+    *(newMyString.stringVar + i) = *(oldString.data() +i);
+  }
+
+  std::cout << "Equals assignement operator used (object): " << newMyString.stringVar << std::endl;
+
+  return newMyString;
+
+}
+
+ myString& myString::operator+=(const myString &oldString)
+ {
+   
+ }
+
 
 size_t myString::size() const
 {
