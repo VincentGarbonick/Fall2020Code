@@ -839,25 +839,31 @@ myString& myString::operator=(const myString &oldString)
  myString& myString::operator+=(const myString &oldString)
  {
 
-   this->strLength = this->strLength + oldString.strLength;
-
-   this->stringVar = new char[strLength + 1];
-
-  int i = 0;
-  while(i < oldString.strLength)
+  char * tempThisInfo = new char[this->size() + 1];
+   
+  for(int i = 0; i <= this->size(); i++)
   {
-    *(this->stringVar + i) = *(oldString.stringVar + i);
-    i++;
+    *(tempThisInfo + i) = *(this->data() + i);
+  }
+
+  int oldThisSize = this->size();
+   
+  this->strLength = this->strLength + oldString.strLength;
+  
+  this->stringVar = new char[strLength + 1];
+
+  for(int i = 0; i < oldThisSize; i++)
+  {
+    *(this->data() + i) = *(tempThisInfo + i);
   }
 
   int j = 0;
-  while(j <= oldString.strLength)
+  for(int i = oldThisSize; i <= this->strLength; i++)
   {
-    *(this->stringVar + i) = *(oldString.stringVar + j);
-    i++;
+    *(this->data() + i) = *(oldString.stringVar + j);
     j++;
   }
-  
+
   std::cout << "Plus Equals assignement operator used (object): " << this->stringVar << std::endl;
   
 
