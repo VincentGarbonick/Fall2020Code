@@ -78,10 +78,10 @@ class myString
     
     myString& operator=(const char*); //overload assignment operator to take string literal
     myString& operator=(const myString &); //overload assignment operator to take in an object of the same type
-    myString& operator+=(const myString &); //overload operator for the concatenation
-    /*
+    myString& operator+=(const myString &); //overload operator for the concatenation    
     char& operator[](const std::size_t ); //overload operator [] to return values and change values at index n
     const char& operator[](std::size_t ) const; //const version of [] overload
+    /*
     const bool operator==(const myString &) const; //overload for ==
     const bool operator!=(const myString &) const; //overload for !=
     bool operator<(myString &) const; //overloading < comparison operator
@@ -415,7 +415,7 @@ taskA()
     assert(s2.empty());
   }
 
-  /*
+  
   // Character access. Support reading and writing of characters using
   // the subscript operator. Both operators take a std::size_t argument n,
   // such that n >= 0 and n < size(). You must assert that the index is
@@ -431,7 +431,7 @@ taskA()
     assert(s1[-1]);
     assert(s2[-1]);
   }
-
+  /*
   // A member function that returns the index of the first character
   // in the string. This shall return a std::size_t value. If no such
   // character exists, return npos. Hint: see std::strchr.
@@ -769,24 +769,6 @@ myString::myString(const char * cPointer, size_t size)
 
 }
 
-/*
-    myString& operator=(const char*); //overload assignment operator to take string literal
-    myString& operator=(const myString &); //overload assignment operator to take in an object of the same type
-    myString& operator+=(const myString &); //overload operator for the concatenation
-
-     // Copy assignment. After assignment, the assigned object on the left (s1)
-  // shall be equal to the value on the right (s2).
-  {
-    myString s1 = "hello";
-    myString s2;
-    s2 = s1;
-    assert(strcmp(s1.data(), s2.data()) == 0);
-    // Compound addition/assignment (concatenation). Appends the string s2
-    // to s1.
-    s1 += s2;
-  }
-*/
-
 myString& myString::operator=(const char* copyString)
 {
   
@@ -870,7 +852,44 @@ myString& myString::operator=(const myString &oldString)
   return *this;
  }
 
+/*
+  // Character access. Support reading and writing of characters using
+  // the subscript operator. Both operators take a std::size_t argument n,
+  // such that n >= 0 and n < size(). You must assert that the index is
+  // in bounds.
+  {
+    myString s1 = "hello";
+    s1[0] = 'a';
+    assert(s1[0] == 'a');
 
+    myString const s2 = "test";
+    assert(s2[0] == 't');
+
+    assert(s1[-1]);
+    assert(s2[-1]);
+  }
+  char& operator[](const std::size_t ); //overload operator [] to return values and change values at index n
+    const char& operator[](std::size_t ) const; //const version of [] overload
+*/
+// change values at index n 
+char& myString::operator[](const std::size_t n)
+{
+  if(n < size() && n > 0)
+  {
+    return *(this->stringVar + n);
+  }
+
+  else
+  {
+    return;
+  }  
+}
+/*
+const char&  myString::operator[](std::size_t n)
+{
+  return const *(this->stringVar + n);
+}
+8?
 size_t myString::size() const
 {
   return strLength;
