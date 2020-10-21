@@ -73,7 +73,7 @@ class myString
     //Pre: accepts a integer for the index to start at and charAmount for the amount of characters
     //Post: returns a char pointer for the new substring
     
-    // friend std::ostream& operator<<(std::ostream&, myString const&); //overload << operator to output stringVar
+    friend std::ostream& operator<<(std::ostream&, myString const&); //overload << operator to output stringVar
     
 
     
@@ -98,14 +98,14 @@ class myString
     myString operator+(myString &) const; //overloading + operator
     myString& operator=(myString &&); //move assignment operator
     // add a test case for move construction and assignment and EARN B O N U S points!!!
-
+    */
 
     ~myString() //deconstructor
     {
         delete [] stringVar;
         stringVar = nullptr;
     }
-    */
+    
     // Defines the npos value.
     static constexpr std::size_t npos = -1;
 
@@ -466,16 +466,16 @@ taskA()
     assert (s3 == "def");
   }
 
-  /*
+  
   // Equality comparisons. Two strings compare equal when they have the
   // same sequence of characters. Hint: see std::strcmp.
   {
     myString const s1 = "hello";
     myString const s2 = "goodbye";
     assert(s1 == s1);
-    assert(s1 != s2);
+    //assert(s1 != s2);
   }
-
+  /*
   // ordering. One string compares less than another when it lexicographically
   // precedes it. Hint: see std::strcmp
   {
@@ -487,6 +487,7 @@ taskA()
     assert(s1 >= s1);
   }
 
+   
   // concatenation
   {
     myString s1 = "abc";
@@ -759,17 +760,17 @@ myString::myString(const myString &copyMyString)
 // remember, strings must be null terminated
 myString::myString(const char * cPointer, size_t size)
 {
-  strLength = size;
+  this->strLength = size;
 
-  stringVar = new char[strLength + 1];
+  this->stringVar = new char[strLength + 1];
 
-  for(int i = 0; i < strLength; i++)
+  for(int i = 0; i < this->strLength; i++)
   {
-    *(stringVar + i) = *(cPointer + i);
+    *(this->stringVar + i) = *(cPointer + i);
   }
 
   // add null terminator
-  stringVar += '\0';
+  *(this->stringVar + size) = '\0';
 
   std::cout << "Partial init: " << stringVar << std::endl;
 
@@ -886,28 +887,26 @@ const char&  myString::operator[](std::size_t n) const
 }
 
 /*
-char* substr(std::size_t, std::size_t) const; //makes a string out of an existing string
-    //Pre: accepts a integer for the index to start at and charAmount for the amount of characters
-    //Post: returns a char pointer for the new substring
-
-      // A member function that creates a substring comprising all of the
-  // characters starting at an index i and containing n characters. The
-  // index i shall be a valid position in the string. You must assert
-  // this condition. If n is larger than the number of characters past i
-  // then all characters after i are copied to the the output.
-  // Hint: use your bounded C-string constructor.
-  //
-  // This function shall not modify its object.
+  // ordering. One string compares less than another when it lexicographically
+  // precedes it. Hint: see std::strcmp
   {
-    myString const s1 = "abcdef";
-    myString s2 = s1.substr(0, 3);
-    myString s3 = s1.substr(3, 3);
-    assert (s2 == "abc");
-    assert (s3 == "def");
+    myString s1 = "abc";
+    myString s2 = "def";
+    assert(s1 < s2);
+    assert(s2 > s1);
+    assert(s1 <= s1);
+    assert(s1 >= s1);
   }
-
-    const bool operator==(const myString &) const; //overload for ==
-    const bool operator!=(const myString &) const; //overload for !=
+    bool operator<(myString &) const; //overloading < comparison operator
+    bool operator<(const char *); //overloading < comparison operator for string literal
+    bool operator<=(myString &) const; //overloading <= comparison operator
+    bool operator<=(const char *); //overloading <= comparison operator for string literal
+    bool operator>(myString &) const; //overloading > comparison operator
+    bool operator>(const char *); //overloading > comparison operator for string literal
+    bool operator>=(myString &) const; //overloading >= comparison operator
+    bool operator>=(const char *); //overloading >= comparison operator for string literal
+    myString operator+(myString &) const; //overloading + operator
+    myString& operator=(myString &&); //move assignment operator
 */
 
 // return 1 for they are equal, 0 for not
@@ -1013,13 +1012,13 @@ char* myString::data() const
 {
   return stringVar;
 }
-/*
+
 std::ostream& operator<<(std::ostream& input, myString const& rhs)
 {
     input << rhs.stringVar;
     return input;
 }
-*/
+
 // PLACE CODE HERE FOR TASK B
 // *************************************************
 // TASK B CODE
