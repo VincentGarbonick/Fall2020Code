@@ -63,17 +63,18 @@ class myString
     //Pre: none
     //Post: returns a char pointer that holds the c-string
 
-    /*
+    
     std::size_t find(char ) const; //returns the index of the first occurrence of the target char
     //Pre: accepts a valid char for the target the user wants to find
     //Post: returns index where the target first occurs or npos if not found
 
+    
     char* substr(std::size_t, std::size_t) const; //makes a string out of an existing string
     //Pre: accepts a integer for the index to start at and charAmount for the amount of characters
     //Post: returns a char pointer for the new substring
     
-    friend std::ostream& operator<<(std::ostream&, myString const&); //overload << operator to output stringVar
-    */
+    // friend std::ostream& operator<<(std::ostream&, myString const&); //overload << operator to output stringVar
+    
 
     
     myString& operator=(const char*); //overload assignment operator to take string literal
@@ -81,9 +82,11 @@ class myString
     myString& operator+=(const myString &); //overload operator for the concatenation    
     char& operator[](const std::size_t ); //overload operator [] to return values and change values at index n
     const char& operator[](std::size_t ) const; //const version of [] overload
-    /*
+    
     const bool operator==(const myString &) const; //overload for ==
     const bool operator!=(const myString &) const; //overload for !=
+    
+    /*
     bool operator<(myString &) const; //overloading < comparison operator
     bool operator<(const char *); //overloading < comparison operator for string literal
     bool operator<=(myString &) const; //overloading <= comparison operator
@@ -431,7 +434,8 @@ taskA()
     assert(s1[-1]);
     assert(s2[-1]);
   }
-  /*
+
+  
   // A member function that returns the index of the first character
   // in the string. This shall return a std::size_t value. If no such
   // character exists, return npos. Hint: see std::strchr.
@@ -445,6 +449,7 @@ taskA()
     assert(s1.find('z') == s1.npos);
   }
 
+  
   // A member function that creates a substring comprising all of the
   // characters starting at an index i and containing n characters. The
   // index i shall be a valid position in the string. You must assert
@@ -461,6 +466,7 @@ taskA()
     assert (s3 == "def");
   }
 
+  /*
   // Equality comparisons. Two strings compare equal when they have the
   // same sequence of characters. Hint: see std::strcmp.
   {
@@ -852,44 +858,139 @@ myString& myString::operator=(const myString &oldString)
   return *this;
  }
 
-/*
-  // Character access. Support reading and writing of characters using
-  // the subscript operator. Both operators take a std::size_t argument n,
-  // such that n >= 0 and n < size(). You must assert that the index is
-  // in bounds.
-  {
-    myString s1 = "hello";
-    s1[0] = 'a';
-    assert(s1[0] == 'a');
-
-    myString const s2 = "test";
-    assert(s2[0] == 't');
-
-    assert(s1[-1]);
-    assert(s2[-1]);
-  }
-  char& operator[](const std::size_t ); //overload operator [] to return values and change values at index n
-    const char& operator[](std::size_t ) const; //const version of [] overload
-*/
 // change values at index n 
 char& myString::operator[](const std::size_t n)
 {
-  if(n < size() && n > 0)
+  if(n < size() && n >= 0)
   {
     return *(this->stringVar + n);
   }
 
   else
   {
-    return;
+    return *(this->stringVar);
   }  
 }
-/*
-const char&  myString::operator[](std::size_t n)
+
+const char&  myString::operator[](std::size_t n) const
 {
-  return const *(this->stringVar + n);
+  if(n < size() && n >= 0)
+  {
+    return *(this->stringVar + n);
+  }
+
+  else
+  {
+    return *(this->stringVar);
+  }  
 }
-8?
+
+/*
+char* substr(std::size_t, std::size_t) const; //makes a string out of an existing string
+    //Pre: accepts a integer for the index to start at and charAmount for the amount of characters
+    //Post: returns a char pointer for the new substring
+
+      // A member function that creates a substring comprising all of the
+  // characters starting at an index i and containing n characters. The
+  // index i shall be a valid position in the string. You must assert
+  // this condition. If n is larger than the number of characters past i
+  // then all characters after i are copied to the the output.
+  // Hint: use your bounded C-string constructor.
+  //
+  // This function shall not modify its object.
+  {
+    myString const s1 = "abcdef";
+    myString s2 = s1.substr(0, 3);
+    myString s3 = s1.substr(3, 3);
+    assert (s2 == "abc");
+    assert (s3 == "def");
+  }
+
+    const bool operator==(const myString &) const; //overload for ==
+    const bool operator!=(const myString &) const; //overload for !=
+*/
+
+// return 1 for they are equal, 0 for not
+const bool myString::operator==(const myString &compare) const
+{
+  if(this->strLength && compare.size())
+  {
+    bool contentCompareFlag = 1; // 1 for yes, 0 for no
+    for(int i = 0; i < this->strLength; i++)
+    {
+      if(*(this->stringVar + i) != *(compare.data() + i))
+      {
+        contentCompareFlag = 0;
+        break;
+      }
+    }
+    if(contentCompareFlag)
+    {
+      return 1;
+    }
+    else 
+    {
+      return 0;
+    }
+  }
+  else 
+  {
+    return 0;
+  }  
+}
+char* myString::substr(std::size_t p1, std::size_t p2) const
+{
+  
+  if(p1 < strLength && p1+p2 <= strLength)
+  {
+    size_t tempSize = p2;
+    char * newBuffer = new char[p2  + 1]; // adding one for null terminator  
+
+    for(int i = 0; i < p2; i++)
+    {
+       *(newBuffer + i) = *(stringVar + p1 + i);
+    }
+
+    *(newBuffer + p2 + 1) = '\0'; // null terminate it
+
+
+    return newBuffer; 
+  }
+  else 
+  {
+
+    char * junkBuffer = new char[1];
+    *(junkBuffer) = '\0';
+
+    return junkBuffer;
+  }
+}
+// find first instance of a character
+std::size_t myString::find(char findChar) const
+{
+  bool findFlag = 0; //false 0, true 1
+  int findPos; 
+
+  for(int i = 0; i < this->strLength; i++)
+  {
+    if(*(this->stringVar + i) == findChar)
+    {
+      findFlag = 1; 
+      findPos = i;
+      break;
+    }
+  }
+
+  if(findFlag)
+  {
+    return findPos; 
+  }
+  else 
+  {
+    return this->npos;
+  }
+
+}
 size_t myString::size() const
 {
   return strLength;
