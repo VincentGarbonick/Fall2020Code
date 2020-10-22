@@ -473,9 +473,9 @@ taskA()
     myString const s1 = "hello";
     myString const s2 = "goodbye";
     assert(s1 == s1);
-    //assert(s1 != s2);
+    assert(s1 != s2);
   }
-  /*
+  
   // ordering. One string compares less than another when it lexicographically
   // precedes it. Hint: see std::strcmp
   {
@@ -486,8 +486,8 @@ taskA()
     assert(s1 <= s1);
     assert(s1 >= s1);
   }
-
-   
+  
+  /* 
   // concatenation
   {
     myString s1 = "abc";
@@ -908,6 +908,36 @@ const char&  myString::operator[](std::size_t n) const
     myString operator+(myString &) const; //overloading + operator
     myString& operator=(myString &&); //move assignment operator
 */
+
+// return 1 for not equal, 0 for equal 
+const bool myString::operator!=(const myString &compare) const
+{
+  if(strLength == compare.size())
+  {
+    return 1; 
+  }
+  else 
+  {
+    bool contentCompareFlag = 1; 
+    int countSameChar = 0; 
+    for(int i = 0; i < this->strLength; i++)
+    {
+      if(*(this->stringVar + i) == *(compare.data() + i))
+      {
+        // if the number of characters that 
+        countSameChar++; // increment count same char
+      }
+    }
+    if(countSameChar == strLength)
+    {
+      return 0;
+    }
+    else 
+    {
+      return 1; 
+    }
+  }
+}
 
 // return 1 for they are equal, 0 for not
 const bool myString::operator==(const myString &compare) const
