@@ -134,9 +134,9 @@ void reverse3(short *);
 
 // PLACE CODE HERE FOR TASK C
 // *************************************************
-void reversal(char *);
-void reversal(bool *);
-void reversal(short *);
+void reverse(char *);
+void reverse(bool *);
+void reverse(short *);
 
 // PLACE CODE HERE FOR TASK D
 // *************************************************
@@ -1197,6 +1197,141 @@ void reverse3(short * cStyleDynamicArray)
 // *************************************************
 // TASK C CODE
 
+/*
+void reverse(char *);
+void reverse(bool *);
+void reverse(short *);
+
+overloaded functions for char, bool, and short
+*/
+
+void reverse(char * cStyleDynamicArray)
+{
+  // we want 2 pointers, one for the head, one for the tail 
+  char * front = new char;
+  char * back = new char;
+
+  // first we have 2 pointers for front and back 
+  // then we set the contents of those pointers equal to their respective contents in the array 
+  // then we swap the respective contents of the array
+
+  // calculate if mySize has a "middle point," because we will need to BREAK so we don't reset our array
+  bool hasMiddlePoint =0;
+  int breakIndex; // when we should break
+  if(mySize % 2 == 0)
+  {
+    // even, no middle point 
+    hasMiddlePoint = 0;
+    breakIndex = mySize / 2;
+  }
+  else 
+  {
+    hasMiddlePoint = 1;
+    breakIndex = int(mySize / 2);
+  }
+
+
+  int reverseIndex = mySize - 1; // references last element in array 
+  for(int i = 0; i < mySize; i++)
+  {
+    *front = cStyleDynamicArray[i]; // set front pointer to front element
+    *back = cStyleDynamicArray[reverseIndex]; // set pointer to back most element
+
+    cStyleDynamicArray[i] = *back; // swap the elements
+    cStyleDynamicArray[reverseIndex] = *front;
+    reverseIndex--;
+
+    if(i == breakIndex)
+    {
+      break;
+    }
+  } 
+}
+void reverse(bool * cStyleDynamicArray)
+{
+  // we want 2 pointers, one for the head, one for the tail 
+  bool * front = new bool;
+  bool * back = new bool;
+
+  // first we have 2 pointers for front and back 
+  // then we set the contents of those pointers equal to their respective contents in the array 
+  // then we swap the respective contents of the array
+
+  // calculate if mySize has a "middle point," because we will need to BREAK so we don't reset our array
+  bool hasMiddlePoint =0;
+  int breakIndex; // when we should break
+  if(mySize % 2 == 0)
+  {
+    // even, no middle point 
+    hasMiddlePoint = 0;
+    breakIndex = mySize / 2;
+  }
+  else 
+  {
+    hasMiddlePoint = 1;
+    breakIndex = int(mySize / 2);
+  }
+
+
+  int reverseIndex = mySize - 1; // references last element in array 
+  for(int i = 0; i < mySize; i++)
+  {
+    *front = cStyleDynamicArray[i]; // set front pointer to front element
+    *back = cStyleDynamicArray[reverseIndex]; // set pointer to back most element
+
+    cStyleDynamicArray[i] = *back; // swap the elements
+    cStyleDynamicArray[reverseIndex] = *front;
+    reverseIndex--;
+
+    if(i == breakIndex)
+    {
+      break;
+    }
+  } 
+}
+
+void reverse(short * cStyleDynamicArray)
+{
+  // we want 2 pointers, one for the head, one for the tail 
+  short * front = new short;
+  short * back = new  short;
+
+  // first we have 2 pointers for front and back 
+  // then we set the contents of those pointers equal to their respective contents in the array 
+  // then we swap the respective contents of the array
+
+  // calculate if mySize has a "middle point," because we will need to BREAK so we don't reset our array
+  bool hasMiddlePoint =0;
+  int breakIndex; // when we should break
+  if(mySize % 2 == 0)
+  {
+    // even, no middle point 
+    hasMiddlePoint = 0;
+    breakIndex = mySize / 2;
+  }
+  else 
+  {
+    hasMiddlePoint = 1;
+    breakIndex = int(mySize / 2);
+  }
+
+
+  int reverseIndex = mySize - 1; // references last element in array 
+  for(int i = 0; i < mySize; i++)
+  {
+    *front = cStyleDynamicArray[i]; // set front pointer to front element
+    *back = cStyleDynamicArray[reverseIndex]; // set pointer to back most element
+
+    cStyleDynamicArray[i] = *back; // swap the elements
+    cStyleDynamicArray[reverseIndex] = *front;
+    reverseIndex--;
+
+    if(i == breakIndex)
+    {
+      break;
+    }
+  } 
+}
 // PLACE CODE HERE FOR TASK D
 // *************************************************
 // TASK D CODE
