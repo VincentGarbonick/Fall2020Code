@@ -218,6 +218,9 @@ public:
   void appendNode(Employee); // append an object in 
   void appendNode(std::string, std::string, int); // initialize in appendnode 
   
+  void insertNode(Employee);
+  void insertNode(std::string, std::string, int); // initialize in insert 
+
   void displayList(void);
 
 };
@@ -730,13 +733,13 @@ taskE()
   list.appendNode("Zippy", "Zip", 150);
   list.displayList();
 
-  /*
+  
   cout << endl << "Now inserting into the list" << endl;
   Employee employee5{"Chuck", "Ster", 5050};
   list.insertNode(employee5);
   list.insertNode("Estoy", "Rico", 75000);
   list.displayList();
-
+  /*
   cout << endl << "Now the reduction in force :( " << endl;
   list.deleteNode("Zip");  // OH NO!
   list.deleteNode("Zippy");
@@ -1560,5 +1563,136 @@ void myLList::displayList(void)
 
       nodePtr = nodePtr->next; // go to next link  
     }
+  }
+}
+
+void myLList::insertNode(Employee insertEmployee)
+{
+
+  if(!head)
+  {
+    std::cout << "Nothing is currently in list, no insert." << std::endl;    
+  }
+  else 
+  {
+    node *newNode; 
+    node *nodePtr; 
+    node *previousNode = nullptr;
+
+    // allocate a new node and store insertemployee there 
+    newNode = new node;
+    newNode->data = insertEmployee;
+
+    nodePtr = head;
+    previousNode = nullptr;
+
+    std::string nodePtrLastName, newNodeLastName, previousNodeLastName;
+    
+    newNodeLastName = newNode->data.getLastName();
+
+    // skip all nodes until we find one where insert is bigger than
+    while(nodePtr != nullptr)
+    {
+      previousNode = nodePtr;
+      nodePtr = nodePtr->next;
+
+      nodePtrLastName = nodePtr->data.getLastName(); 
+      
+      if(previousNode != nullptr)
+      {
+        previousNodeLastName = previousNode->data.getLastName();
+      }
+      else 
+      {
+        previousNodeLastName = "z";        
+      }
+
+      if(newNodeLastName[0] > previousNodeLastName[0] && (newNodeLastName[0] < nodePtrLastName[0] || newNodeLastName[0] == nodePtrLastName[0]))
+      {
+        // if we find a node where our new node has a higher last name, break
+        break;
+      }
+      
+    }
+
+    // if the new node is to be the 1st in the list 
+    if(previousNode == nullptr)
+    {
+      head = newNode;
+      newNode->next = nodePtr;
+    }
+    else  // otherwise insert after the previous node 
+    {
+      previousNode->next = newNode;
+      newNode->next = nodePtr;
+    }
+
+    return;
+  }
+}
+
+void myLList::insertNode(std::string newFirst, std::string newLast, int salary)
+{
+Employee insertEmployee(newFirst, newLast, salary);
+
+  if(!head)
+  {
+    std::cout << "Nothing is currently in list, no insert." << std::endl;    
+  }
+  else 
+  {
+    node *newNode; 
+    node *nodePtr; 
+    node *previousNode = nullptr;
+
+    // allocate a new node and store insertemployee there 
+    newNode = new node;
+    newNode->data = insertEmployee;
+
+    nodePtr = head;
+    previousNode = nullptr;
+
+    std::string nodePtrLastName, newNodeLastName, previousNodeLastName;
+    
+    newNodeLastName = newNode->data.getLastName();
+
+    // skip all nodes until we find one where insert is bigger than
+    while(nodePtr != nullptr)
+    {
+      previousNode = nodePtr;
+      nodePtr = nodePtr->next;
+
+      nodePtrLastName = nodePtr->data.getLastName(); 
+      
+      if(previousNode != nullptr)
+      {
+        previousNodeLastName = previousNode->data.getLastName();
+      }
+      else 
+      {
+        previousNodeLastName = "z";        
+      }
+
+      if(newNodeLastName[0] > previousNodeLastName[0] && (newNodeLastName[0] < nodePtrLastName[0] || newNodeLastName[0] == nodePtrLastName[0]))
+      {
+        // if we find a node where our new node has a higher last name, break
+        break;
+      }
+      
+    }
+
+    // if the new node is to be the 1st in the list 
+    if(previousNode == nullptr)
+    {
+      head = newNode;
+      newNode->next = nodePtr;
+    }
+    else  // otherwise insert after the previous node 
+    {
+      previousNode->next = newNode;
+      newNode->next = nodePtr;
+    }
+
+    return;
   }
 }
