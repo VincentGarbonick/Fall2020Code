@@ -140,6 +140,8 @@ void reverse(short *);
 
 // PLACE CODE HERE FOR TASK D
 // *************************************************
+template <typename T> // template typename declaration 
+void reversal(T *);
 
 // PLACE CODE HERE FOR TASK E
 // *************************************************
@@ -621,7 +623,7 @@ void
 taskD()
 {
   std::cout << "task D" << std::endl;
-  /*
+  
 // these are the test cases
   char str1[]  = "sriahc gab naeb evah emos";
   bool str2[]  = {0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0};
@@ -660,7 +662,7 @@ taskD()
   {
      cout  << str3[i] << " " ;
   }
-  */
+  
   cout << "end of task D" << endl;
   cin.get();
 }
@@ -1335,7 +1337,49 @@ void reverse(short * cStyleDynamicArray)
 // PLACE CODE HERE FOR TASK D
 // *************************************************
 // TASK D CODE
+template <typename T>
+void reversal(T * cStyleDynamicArray)
+{
+  // we want 2 pointers, one for the head, one for the tail 
+  T * front = new T;
+  T * back = new T;
 
+  // first we have 2 pointers for front and back 
+  // then we set the contents of those pointers equal to their respective contents in the array 
+  // then we swap the respective contents of the array
+
+  // calculate if mySize has a "middle point," because we will need to BREAK so we don't reset our array
+  bool hasMiddlePoint =0;
+  int breakIndex; // when we should break
+  if(mySize % 2 == 0)
+  {
+    // even, no middle point 
+    hasMiddlePoint = 0;
+    breakIndex = mySize / 2;
+  }
+  else 
+  {
+    hasMiddlePoint = 1;
+    breakIndex = int(mySize / 2);
+  }
+
+
+  int reverseIndex = mySize - 1; // references last element in array 
+  for(int i = 0; i < mySize; i++)
+  {
+    *front = cStyleDynamicArray[i]; // set front pointer to front element
+    *back = cStyleDynamicArray[reverseIndex]; // set pointer to back most element
+
+    cStyleDynamicArray[i] = *back; // swap the elements
+    cStyleDynamicArray[reverseIndex] = *front;
+    reverseIndex--;
+
+    if(i == breakIndex)
+    {
+      break;
+    }
+  } 
+}
 // PLACE CODE HERE FOR TASK E
 // *************************************************
 // TASK E CODE
