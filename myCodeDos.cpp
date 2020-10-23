@@ -185,6 +185,49 @@ class Employee
 };
 //---------------------------------------------------------------------
 
+// myLList code 
+// ----------------specifications --------------------
+// destructor to destroy entire list 
+// append node to end 
+// insert a node based on last name 
+// delete a node based on last name 
+// display the list 
+class myLList
+{
+private:
+
+  struct node
+  {
+    Employee data; // where the object is stored 
+    node * next; // where next object is    
+    int count;
+  };
+
+  typedef node* nodePtr;
+
+  nodePtr head;
+  
+
+
+public: 
+  // default constructor, turns both head and tail to NULL values
+  myLList()
+  {
+    head = nullptr;
+  }
+  void appendNode(Employee); // append an object in 
+  void appendNode(std::string, std::string, int); // initialize in appendnode 
+  
+  void displayList(void);
+
+};
+
+
+
+
+
+
+
 // these are declarations - prefer this or std:: prefix
 using std::cout;
 using std::cin;
@@ -671,7 +714,7 @@ void
 taskE()
 {
   std::cout << "task E" << std::endl;
-  /*
+  
   myLList list;
   // Append some values to the list.
   cout << "Appending to the list" << endl;
@@ -687,6 +730,7 @@ taskE()
   list.appendNode("Zippy", "Zip", 150);
   list.displayList();
 
+  /*
   cout << endl << "Now inserting into the list" << endl;
   Employee employee5{"Chuck", "Ster", 5050};
   list.insertNode(employee5);
@@ -701,7 +745,7 @@ taskE()
   cout << "end of task E" << endl;
   cin.get();
 }
-
+  
 // This code hereafter would normally go into a dot cpp file
 //
 // APPLICATION HERE
@@ -1385,7 +1429,7 @@ void reversal(T * cStyleDynamicArray)
 // TASK E CODE
 // Employee class methods
 // set first name
-/*
+
 void Employee::setFirstName(const std::string &name)
 {
   firstName = name; // no validation needed
@@ -1423,4 +1467,84 @@ int Employee::getMonthlySalary()
   return monthlySalary;
 }
 // myLList code should follow here
-*/
+void myLList::appendNode(Employee appendEmployee)
+{
+  node * newNode; // storage for new node
+  node * nodePtr; // to move through the list 
+
+  // allocate a new node and store the object there
+  newNode = new node;
+  newNode->data = appendEmployee;
+  newNode->next = nullptr; // we know it's the most recent element now 
+
+  // if there are no nodes in the list, make newNode the first node 
+  if(!head)
+  {
+    head = newNode; 
+  }
+  // otherwise, insert newNode at end 
+  else 
+  {
+    // initialize nodePtr to head of list 
+    nodePtr = head;
+
+    // find the last node in the list 
+    while (nodePtr->next)
+    {
+      nodePtr = nodePtr->next;
+    }
+    // insert newNode as the last node 
+    nodePtr->next = newNode;
+    
+  }
+
+  return;
+}
+
+void myLList::appendNode(std::string newFirst, std::string newLast, int salary)
+{
+  Employee appendEmployee(newFirst, newLast, salary);
+  
+  node * newNode; // storage for new node
+  node * nodePtr; // to move through the list 
+
+  // allocate a new node and store the object there
+  newNode = new node;
+  newNode->data = appendEmployee;
+  newNode->next = nullptr; // we know it's the most recent element now 
+
+  // if there are no nodes in the list, make newNode the first node 
+  if(!head)
+  {
+    head = newNode; 
+    
+  }
+  // otherwise, insert newNode at end 
+  else 
+  {
+    // initialize nodePtr to head of list 
+    nodePtr = head;
+
+    // find the last node in the list 
+    while (nodePtr->next)
+    {
+      nodePtr = nodePtr->next;
+    }
+    // insert newNode as the last node 
+    nodePtr->next = newNode;
+    
+  }
+  return;
+}
+
+void myLList::displayList(void)
+{
+  if(!head)
+  {
+    std::cout << "Nothing is inside this list!" << std::endl;    
+  }
+  else 
+  {
+    std::cout << "Hit dummy point " << std::endl;
+  }
+}
