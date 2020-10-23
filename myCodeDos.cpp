@@ -86,7 +86,7 @@ class myString
     const bool operator==(const myString &) const; //overload for ==
     const bool operator!=(const myString &) const; //overload for !=
     
-    /*
+    
     bool operator<(myString &) const; //overloading < comparison operator
     bool operator<(const char *); //overloading < comparison operator for string literal
     bool operator<=(myString &) const; //overloading <= comparison operator
@@ -98,7 +98,7 @@ class myString
     myString operator+(myString &) const; //overloading + operator
     myString& operator=(myString &&); //move assignment operator
     // add a test case for move construction and assignment and EARN B O N U S points!!!
-    */
+    
 
     ~myString() //deconstructor
     {
@@ -528,7 +528,7 @@ taskA()
     assert(s1 != s2);
   }
   
-  /*
+  
   // ordering. One string compares less than another when it lexicographically
   // precedes it. Hint: see std::strcmp
   {
@@ -538,9 +538,10 @@ taskA()
     assert(s2 > s1);
     assert(s1 <= s1);
     assert(s1 >= s1);
+    
   }
   
-  /* 
+  
   // concatenation
   {
     myString s1 = "abc";
@@ -549,7 +550,7 @@ taskA()
     myString s4 = "abcdef";
     assert(s3 == s4);
   }
-
+  
   // self concatenation
   {
     myString s1 = "abc";
@@ -557,7 +558,7 @@ taskA()
     myString s2 = "abcabc";
     assert(s1 == s2);
   }
-  */
+  
   cout << "end of task A" << endl;
   cin.get();
 }
@@ -953,18 +954,285 @@ const char&  myString::operator[](std::size_t n) const
     assert(s1 <= s1);
     assert(s1 >= s1);
   }
-    bool operator<(myString &) const; //overloading < comparison operator
-    bool operator<(const char *); //overloading < comparison operator for string literal
-    bool operator<=(myString &) const; //overloading <= comparison operator
-    bool operator<=(const char *); //overloading <= comparison operator for string literal
-    bool operator>(myString &) const; //overloading > comparison operator
-    bool operator>(const char *); //overloading > comparison operator for string literal
-    bool operator>=(myString &) const; //overloading >= comparison operator
-    bool operator>=(const char *); //overloading >= comparison operator for string literal
+
+
     myString operator+(myString &) const; //overloading + operator
     myString& operator=(myString &&); //move assignment operator
 */
 
+myString myString::operator+(myString &fusion) const 
+{
+  short newSize = this->strLength + fusion.size();
+  char * newStringVar = new char[newSize +1];
+
+  int secondaryIncrement = 0;
+
+  for(int i = 0; i < newSize; i++)
+  {
+    if(i < this->strLength)
+    {
+      newStringVar[i] = *(this->data() + i);
+    }
+    else if(i >= this->strLength && i < newSize)
+    {
+      newStringVar[i] = *(fusion.data() + secondaryIncrement);
+      secondaryIncrement++; 
+    }
+  }
+
+  return myString(newStringVar);
+}
+
+/*
+comparing operators works in the following way 
+the function starts comparing the first character of each string. if they are equal to eachotehr, it continues with the 
+following pairs until the characters differ or until a terminating null character is reached
+*/
+// 0 - the condition evaluates to false  or unable to evaluate 
+// 1- the condition evealuates to true 
+bool myString::operator>=(myString &compare) const //overloading < comparison operator
+{
+  // they must be equal in size
+  if(this->size() == compare.size())
+  {
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    >= *(compare.data() + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << ">=" << compare.data() << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << ">=" << compare.data() << std::endl;
+      return 0;
+    }
+  }
+  else 
+  {
+    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    return 0;
+  }
+}
+bool myString::operator>=(const char * charP)  //overloading < comparison operator
+{
+
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    >= *(charP + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << ">=" << charP << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << ">=" << charP << std::endl;
+      return 0;
+    }
+  }
+bool myString::operator>(myString &compare) const //overloading < comparison operator
+{
+  // they must be equal in size
+  if(this->size() == compare.size())
+  {
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    > *(compare.data() + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << ">" << compare.data() << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << ">" << compare.data() << std::endl;
+      return 0;
+    }
+  }
+  else 
+  {
+    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    return 0;
+  }
+}
+bool myString::operator>(const char * charP)  //overloading < comparison operator
+{
+
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    > *(charP + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << ">" << charP << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << ">" << charP << std::endl;
+      return 0;
+    }
+  }
+
+bool myString::operator<(const char * charP)  //overloading < comparison operator
+{
+
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    < *(charP + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << "<" << charP << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << "<" << charP << std::endl;
+      return 0;
+    }
+  }
+
+bool myString::operator<(myString &compare) const //overloading < comparison operator
+{
+  // they must be equal in size
+  if(this->size() == compare.size())
+  {
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    < *(compare.data() + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << "<" << compare.data() << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << "<" << compare.data() << std::endl;
+      return 0;
+    }
+  }
+  else 
+  {
+    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    return 0;
+  }
+}
+bool myString::operator<=(myString &compare) const //overloading < comparison operator
+{
+  // they must be equal in size
+  if(this->size() == compare.size())
+  {
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    <= *(compare.data() + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << "<=" << compare.data() << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << "<=" << compare.data() << std::endl;
+      return 0;
+    }
+  }
+  else 
+  {
+    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    return 0;
+  }
+}
+bool myString::operator<=(const char * charP)  //overloading < comparison operator
+{
+
+    bool foundOperator = 0; //1 - we satisfied the condition  0- nope!
+    int i = 0;
+    while(i < this->size())
+    {
+      if(   *(stringVar + i)    <= *(charP + i) &&   *(stringVar + i ) != '\0')
+      {
+        foundOperator = 1;
+        break;
+      }
+      i++;
+    }
+
+    if(foundOperator)
+    {
+      std::cout << "Satisfied for " << stringVar << "<=" << charP << std::endl;
+      return 1;
+    }
+    else 
+    {
+      std::cout << "NOT satisfied for " << stringVar << "<=" << charP << std::endl;
+      return 0;
+    }
+  }
+// -------------------------end of compare operators------------------------------------------
 // return 1 for not equal, 0 for equal 
 const bool myString::operator!=(const myString &compare) const
 {
