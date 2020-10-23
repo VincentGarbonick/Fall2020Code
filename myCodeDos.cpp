@@ -1545,6 +1545,20 @@ void myLList::displayList(void)
   }
   else 
   {
-    std::cout << "Hit dummy point " << std::endl;
+    // start at head , stop when we hit nullptr
+    node * nodePtr; // to move through the list 
+    
+    nodePtr = head; // start off at head 
+
+    // while we still have "links" left over 
+    while(nodePtr->next)
+    {
+      std::cout << nodePtr->data.getFirstName()
+                << " " << nodePtr->data.getLastName()
+                << " " << nodePtr->data.getMonthlySalary()
+                << '\n' << std::endl;
+
+      nodePtr = nodePtr->next; // go to next link  
+    }
   }
 }
