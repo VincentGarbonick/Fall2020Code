@@ -220,7 +220,9 @@ public:
   
   void insertNode(Employee);
   void insertNode(std::string, std::string, int); // initialize in insert 
+  
 
+  void deleteNode(std::string);
   void displayList(void);
 
 };
@@ -739,12 +741,12 @@ taskE()
   list.insertNode(employee5);
   list.insertNode("Estoy", "Rico", 75000);
   list.displayList();
-  /*
+  
   cout << endl << "Now the reduction in force :( " << endl;
   list.deleteNode("Zip");  // OH NO!
   list.deleteNode("Zippy");
   list.displayList();
-  */
+  
   cout << "end of task E" << endl;
   cin.get();
 }
@@ -1563,7 +1565,17 @@ void myLList::displayList(void)
 
       nodePtr = nodePtr->next; // go to next link  
     }
+
+    if(nodePtr->next == nullptr)
+    {
+      std::cout << nodePtr->data.getFirstName()
+          << " " << nodePtr->data.getLastName()
+          << " " << nodePtr->data.getMonthlySalary()
+          << '\n' << std::endl;
+    }
   }
+
+
 }
 
 void myLList::insertNode(Employee insertEmployee)
@@ -1695,4 +1707,48 @@ Employee insertEmployee(newFirst, newLast, salary);
 
     return;
   }
+}
+
+void myLList::deleteNode(std::string findName)
+{
+    if(!head)
+  {
+    std::cout << "Nothing is currently in list, no delete." << std::endl;    
+  }
+  else 
+  {
+    node *nodePtr; // to traverse the list 
+    node *previousNode; // to point to the previous node 
+    bool foundName = 0; // flag for if we found name or not
+    // initialize pointer to head of list 
+    nodePtr = head;
+
+    // skip all nodes whose value does not equal findname
+    while(nodePtr != nullptr && nodePtr->data.getLastName() != findName)
+    {
+      previousNode = nodePtr; 
+      nodePtr = nodePtr->next;
+
+      // check to make sure the pointer is not a nullpointer, because if we call getlastname it could cause a segfault 
+      // if it's not a nullpointer, check if getlastname equals findname 
+      if(nodePtr != nullptr && nodePtr->data.getLastName() == findName)
+      {
+        foundName = 1;
+        break;
+      }
+    }
+
+    if(foundName)
+    {
+      // if we found the name we want to delete 
+      previousNode->next = nodePtr->next;
+      delete nodePtr;
+    }
+    else 
+    {
+      std::cout << "Could not find last name: " << findName << std::endl;
+      return;
+    }
+  }
+  return;
 }
