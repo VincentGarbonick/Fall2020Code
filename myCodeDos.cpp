@@ -211,10 +211,9 @@ private:
 
 public: 
   // default constructor, turns both head and tail to NULL values
-  myLList()
-  {
-    head = nullptr;
-  }
+  myLList(){ head = nullptr;}
+  ~myLList(); 
+
   void appendNode(Employee); // append an object in 
   void appendNode(std::string, std::string, int); // initialize in appendnode 
   
@@ -1751,4 +1750,26 @@ void myLList::deleteNode(std::string findName)
     }
   }
   return;
+}
+
+myLList::~myLList()
+{
+  node * nodePtr; // to traverse the list 
+  node * nextNode; // to store the next node 
+
+  // position nodePtr at the head of the list 
+  nodePtr = head;
+
+  // while nodePtr is not at the end of the list 
+  while(nodePtr != nullptr)
+  {
+    // save a pointer to the next node 
+    nextNode = nodePtr->next; 
+
+    // delete the current node 
+    delete nodePtr;
+
+    // position nodePtr at the next node 
+    nodePtr = nextNode;
+  }
 }
