@@ -1,3 +1,5 @@
+
+
 #ifndef MYSTRING_DEFINED
 #define MYSTRING_DEFINED
 

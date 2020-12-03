@@ -13,6 +13,10 @@
 
 
 #include "myString.hpp"
+
+
+#define DEBUG_SWITCH_STRING (0)
+
 //Global constants
 
 // *************************************************
@@ -57,8 +61,12 @@ myString::myString(const char* cPointer)
     {
       *(stringVar + i) = *(cPointer + i);
       // std::cout << *(stringVar +i) << std::endl;
-    }  
-    std::cout << stringVar << std::endl;
+    }
+
+    #if DEBUG_SWITCH_STRING  
+      std::cout << stringVar << std::endl;
+    #endif
+  
   }
 
   return;
@@ -66,7 +74,7 @@ myString::myString(const char* cPointer)
 
 // copy constructor 
 myString::myString(const myString &copyMyString)
-{
+{ 
   strLength = copyMyString.size();
 
   stringVar = new char[strLength + 1];
@@ -75,8 +83,9 @@ myString::myString(const myString &copyMyString)
   {
     *(stringVar + i) = *(copyMyString.data() + i);
   }
-
-  std::cout << "copied: " <<  stringVar << std::endl;
+  #if DEBUG_SWITCH_STRING
+    std::cout << "copied: " <<  stringVar << std::endl;
+  #endif
 }
 
 // this constructor is for initializing only PART of a string, based on given size
@@ -94,9 +103,10 @@ myString::myString(const char * cPointer, size_t size)
 
   // add null terminator
   *(this->stringVar + size) = '\0';
-
-  std::cout << "Partial init: " << stringVar << std::endl;
-
+  
+  #if DEBUG_SWITCH_STRING
+    std::cout << "Partial init: " << stringVar << std::endl;
+  #endif
 }
 
 myString& myString::operator=(const char* copyString)
@@ -120,7 +130,9 @@ myString& myString::operator=(const char* copyString)
       *(this->stringVar + i) = *(copyString + i);
   }
 
-  std::cout << "Equals assignement operator used (literal): " << this->stringVar << std::endl;
+  #if DEBUG_SWITCH_STRING
+    std::cout << "Equals assignement operator used (literal): " << this->stringVar << std::endl;
+  #endif
 
   return *this;
 }
@@ -138,7 +150,10 @@ myString& myString::operator=(const myString &oldString)
     *(this->stringVar + i) = *(oldString.data() +i);
   }
 
-  std::cout << "Equals assignement operator used (object): " << this->stringVar << std::endl;
+  #if DEBUG_SWITCH_STRING
+    std::cout << "Equals assignement operator used (object): " << this->stringVar << std::endl;
+  #endif
+
   }
   else 
   {
@@ -176,8 +191,9 @@ myString& myString::operator=(const myString &oldString)
     j++;
   }
 
-  std::cout << "Plus Equals assignement operator used (object): " << this->stringVar << std::endl;
-  
+  #if DEBUG_SWITCH_STRING
+    std::cout << "Plus Equals assignement operator used (object): " << this->stringVar << std::endl;
+  #endif
 
   return *this;
  }
@@ -275,18 +291,26 @@ bool myString::operator>=(myString &compare) const //overloading < comparison op
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << ">=" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << ">=" << compare.data() << std::endl;
+      #endif
       return 1;
     }
     else 
     {
-      std::cout << "NOT satisfied for " << stringVar << ">=" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "NOT satisfied for " << stringVar << ">=" << compare.data() << std::endl;
+      #endif
+
       return 0;
     }
   }
   else 
   {
-    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #if DEBUG_SWITCH_STRING
+      std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #endif
+
     return 0;
   }
 }
@@ -307,12 +331,18 @@ bool myString::operator>=(const char * charP)  //overloading < comparison operat
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << ">=" << charP << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << ">=" << charP << std::endl;
+      #endif
+
       return 1;
     }
     else 
     {
-      std::cout << "NOT satisfied for " << stringVar << ">=" << charP << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "NOT satisfied for " << stringVar << ">=" << charP << std::endl;
+      #endif
+      
       return 0;
     }
   }
@@ -335,18 +365,27 @@ bool myString::operator>(myString &compare) const //overloading < comparison ope
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << ">" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << ">" << compare.data() << std::endl;
+      #endif
+
       return 1;
     }
     else 
     {
-      std::cout << "NOT satisfied for " << stringVar << ">" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "NOT satisfied for " << stringVar << ">" << compare.data() << std::endl;
+      #endif
+
       return 0;
     }
   }
   else 
   {
-    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #if DEBUG_SWITCH_STRING
+      std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #endif
+
     return 0;
   }
 }
@@ -367,12 +406,18 @@ bool myString::operator>(const char * charP)  //overloading < comparison operato
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << ">" << charP << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << ">" << charP << std::endl;
+      #endif
+
       return 1;
     }
     else 
     {
-      std::cout << "NOT satisfied for " << stringVar << ">" << charP << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "NOT satisfied for " << stringVar << ">" << charP << std::endl;
+      #endif
+
       return 0;
     }
   }
@@ -394,12 +439,18 @@ bool myString::operator<(const char * charP)  //overloading < comparison operato
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << "<" << charP << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << "<" << charP << std::endl;
+      #endif
+
       return 1;
     }
     else 
     {
+      #if DEBUG_SWITCH_STRING
       std::cout << "NOT satisfied for " << stringVar << "<" << charP << std::endl;
+      #endif 
+
       return 0;
     }
   }
@@ -423,18 +474,27 @@ bool myString::operator<(myString &compare) const //overloading < comparison ope
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << "<" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << "<" << compare.data() << std::endl;
+      #endif 
+      
       return 1;
     }
     else 
     {
-      std::cout << "NOT satisfied for " << stringVar << "<" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "NOT satisfied for " << stringVar << "<" << compare.data() << std::endl;
+      #endif
+
       return 0;
     }
   }
   else 
   {
-    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #if DEBUG_SWITCH_STRING
+      std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #endif
+
     return 0;
   }
 }
@@ -457,18 +517,27 @@ bool myString::operator<=(myString &compare) const //overloading < comparison op
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << "<=" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << "<=" << compare.data() << std::endl;
+      #endif
+
       return 1;
     }
     else 
     {
-      std::cout << "NOT satisfied for " << stringVar << "<=" << compare.data() << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "NOT satisfied for " << stringVar << "<=" << compare.data() << std::endl;
+      #endif
+
       return 0;
     }
   }
   else 
   {
-    std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #if DEBUG_SWITCH_STRING
+      std::cout << "Strings are not the same size, cannot be done." << std::endl;
+    #endif
+    
     return 0;
   }
 }
@@ -489,12 +558,18 @@ bool myString::operator<=(const char * charP)  //overloading < comparison operat
 
     if(foundOperator)
     {
-      std::cout << "Satisfied for " << stringVar << "<=" << charP << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "Satisfied for " << stringVar << "<=" << charP << std::endl;
+      #endif
+
       return 1;
     }
     else 
     {
-      std::cout << "NOT satisfied for " << stringVar << "<=" << charP << std::endl;
+      #if DEBUG_SWITCH_STRING
+        std::cout << "NOT satisfied for " << stringVar << "<=" << charP << std::endl;
+      #endif
+      
       return 0;
     }
   }
