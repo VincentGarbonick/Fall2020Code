@@ -63,6 +63,10 @@ class myStringVector
         void resize(int); // resizes based on integer input, truncates all out of range elements
         void push_back(const myString&); // classic vector function, adds a value to end of vector
         void pop_back(); // destroys lastmost element
+        myStringVector move(myStringVector); // copies vector over 
+        myString* insert(myString *, myString);  // inserts at given point
+        myString* erase(myString *, myString); // erases at given point
+
 
     private: 
 

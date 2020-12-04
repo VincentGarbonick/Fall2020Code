@@ -176,6 +176,127 @@ void myStringVector::reserve(int n)
     return;
 }
 
+// inserts a myString object at given pointer point if we have room, and then returns a pointer to the new value 
+// also recalculates size 
+myString* myStringVector::insert(myString * location, myString value)
+{
+    // if we have room to insert an element
+    if(this->avail != this->limit)
+    {
+        myString thisValue;
+
+        // start at where location is if we are not inserting at beginning
+        if(location == first)
+        {
+            // store all values in a temp vector 
+            myStringVector tempValues;
+
+            // allocate for temp 
+            myString * tempIterator = allocate<myString>(this->size()); 
+
+            for(int i = 0; i < this->size(); i++)
+            {
+                // construct for temp                
+                construct((tempIterator + i), *(this->first + i));
+
+                #if DEEP_DEBUGGING
+                    cout << *(tempIterator + i) << endl;
+                #endif
+            }
+
+            // set first element to the value we want 
+            *first = value;
+
+            // start at one because we already replaced first
+            for(int i = 1; i < this->size() + 1; i++)
+            {
+                *(this->first + i) = *(tempIterator + i - 1);
+            }
+        }
+        else 
+        {
+            // find where location is relative to first.
+            int findFirst = 0;
+            while((first + findFirst) != location)
+            {
+                findFirst++;
+            }
+
+            // once we know where to "start" displacing elements...
+            
+            // first construct a tempvector holding all elements after 
+                        // store all values in a temp vector 
+            myStringVector tempValues;
+
+            // allocate for temp 
+            myString * tempIterator = allocate<myString>(this->size() - findFirst); 
+
+            for(int i = findFirst; i < this->size(); i++)
+            {
+                // construct for temp                
+                construct((tempIterator + i), *(this->first + i));
+
+                #if DEEP_DEBUGGING
+                    cout << *(tempIterator + i) << endl;
+                #endif
+            }
+
+            for(int i = findFirst; i < this->size(); i++)
+            {
+                *(this->first + i) = *(tempIterator + i - 1);
+            }
+        }
+     
+        avail++; // increment by one because we are one bigger
+    }
+    else 
+    {
+        std::cout << "Cannot insert, please allocate more memory" << std::endl;
+    }
+
+}
+
+// erases a myString object at given pointer point, and then returns a pointer to the new value 
+// also recalculates size 
+myString* myStringVector::erase(myString * location, myString value)
+{
+    if(*location == value)
+    {
+        if(location == first)
+        {
+           for(int i = 0; i < size() - 1; i++)
+           {
+               *(first + i) = *(first + i +1);
+           }
+        }
+        else 
+        {
+            // find where location is relative to first.
+            int findFirst = 0;
+            while((first + findFirst) != location)
+            {
+                findFirst++;
+            }
+
+            for(int i = findFirst; i < size() - 1; i++)
+           {
+               *(first + i) = *(first + i +1);
+           }
+        }
+
+        avail--;
+    }
+    else
+    {
+        std::cout << "Iterator and value do not match...terminating operation." << std::endl;
+    }
+    
+}
+
+
+
+
+
 // resizes based on integer input, truncates all out of range elements
 // Pre: integer for new size 
 // Post: resized myStringVector
@@ -216,6 +337,7 @@ void myStringVector::resize(int newSize)
     }
     else // if there is nothing in our vector 
     {
+        
         first = allocate<myString>(newSize);
         avail = limit = first + newSize;
        
@@ -280,6 +402,27 @@ void myStringVector::clear()
         avail = first;
     }
 }
+
+// moves information from one vector to a new one, and returns said vector
+// Pre: valid vector 
+// Post: populated vector 
+myStringVector myStringVector::move(myStringVector move)
+{
+    myStringVector newVector; 
+
+    // allocate memory for newVector
+    newVector.first = allocate<myString>((int)move.capacity());
+
+    // copy info over for newVector
+    newVector.avail = uninitialized_copy(move.begin(), move.end(), newVector.first);
+
+    // get maxSize for newVector
+    newVector.limit = newVector.avail + (move.capacity());
+
+    return newVector;
+}
+
+
 // returns pointer to first 
 myString * myStringVector::begin() { return first; };
 
