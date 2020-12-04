@@ -150,9 +150,9 @@ myString& myString::operator=(const myString &oldString)
     *(this->stringVar + i) = *(oldString.data() +i);
   }
 
-  #if DEBUG_SWITCH_STRING
-    std::cout << "Equals assignement operator used (object): " << this->stringVar << std::endl;
-  #endif
+    #if DEBUG_SWITCH_STRING
+      std::cout << "Equals assignement operator used (object): " << this->stringVar << std::endl;
+    #endif
 
   }
   else 
@@ -577,6 +577,10 @@ bool myString::operator<=(const char * charP)  //overloading < comparison operat
 // return 1 for not equal, 0 for equal 
 const bool myString::operator!=(const myString &compare) const
 {
+  #if DEBUG_SWITCH_STRING
+    std::cout << "Overloaded!= called" << std::endl;
+  #endif
+
   if(strLength == compare.size())
   {
     return 1; 

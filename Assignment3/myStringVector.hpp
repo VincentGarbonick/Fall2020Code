@@ -21,14 +21,35 @@ class myStringVector
     public:
         // interface 
 
-        // constructors 
+        // constructors/destructors
         myStringVector();
         myStringVector(std::initializer_list<myString>); // initializer list constructor
         myStringVector(const myStringVector &); // copy constructor
+        ~myStringVector();
+
+
+
+
+        // overloads
+        const bool operator==(const myStringVector &) const; //overload for ==
+        myStringVector& operator=(const myStringVector &);
+        myString& operator[](const std::size_t) const;
+
 
         // basic functions 
-        bool empty();
-        int size();    
+        bool empty() const; // is the vector empty?
+        int size() const;  // how many elements are in vector?
+        int capacity() const; // what is the TOTAL STORAGE CAPACITY OF VECTOR
+        void clear(); // clears all elements, but does not delete storage
+        
+        myString * begin(); // returns pointer to first 
+        myString * end(); // returns pointer to avail 
+
+        // advanced functions         
+        void reserve(int); // allocates space for up to INT data values 
+        void resize(int); // resizes based on integer input, truncates all out of range elements
+        void push_back(const myString&); // classic vector function, adds a value to end of vector
+        void pop_back(); // destroys lastmost element
 
     private: 
 
