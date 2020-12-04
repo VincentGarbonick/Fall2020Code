@@ -16,9 +16,16 @@
 #ifndef MY_VECTOR_DEFINE
 #define MY_VECTOR_DEFINE
 
+
 class myStringVector
 {
+
+    
     public:
+        // typedefs 
+        typedef myString * iterator;
+        typedef const myString * const_iterator ;
+
         // interface 
 
         // constructors/destructors
@@ -34,6 +41,10 @@ class myStringVector
         const bool operator==(const myStringVector &) const; //overload for ==
         myStringVector& operator=(const myStringVector &);
         myString& operator[](const std::size_t) const;
+        bool operator<(const myStringVector &) const;
+        bool operator>(const myStringVector &) const;
+        bool operator>=(const myStringVector &) const;
+        bool operator<=(const myStringVector &) const;
 
 
         // basic functions 
@@ -44,7 +55,9 @@ class myStringVector
         
         myString * begin(); // returns pointer to first 
         myString * end(); // returns pointer to avail 
-
+        const myString * begin() const; // returns pointer to first 
+        const myString * end() const; // returns pointer to avail 
+        
         // advanced functions         
         void reserve(int); // allocates space for up to INT data values 
         void resize(int); // resizes based on integer input, truncates all out of range elements

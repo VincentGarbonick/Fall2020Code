@@ -286,6 +286,12 @@ myString * myStringVector::begin() { return first; };
 // returns pointer to avail  
 myString * myStringVector::end() {return avail;}
 
+// returns pointer to first (const version)
+const myString * myStringVector::begin() const{ return first; };
+
+// returns pointer to avail (const version)
+const myString * myStringVector::end() const {return avail;}
+
 // overloaded = operator 
 // calls copy constructor unless it's an attempted self assign 
 myStringVector& myStringVector::operator=(const myStringVector &copyVector)
@@ -387,4 +393,96 @@ myString& myStringVector::operator[](const std::size_t n) const
     {
         return *(first);
     }  
+}
+
+// 1 for less than 
+// 0 for greater than
+bool myStringVector::operator<(const myStringVector &check) const
+{
+    // if the sizes are equal continue 
+    if(this->size() == check.size())
+    {
+        if(*(this->first->data()) < *(check.first->data()))
+        {
+            return 1;
+        }
+        else 
+        {
+            return 0;
+        }
+    }
+    // else return 0 
+    else 
+    {
+        return 0;
+    }
+}
+
+// 1 for less than 
+// 0 for greater than
+bool myStringVector::operator>(const myStringVector &check) const
+{
+    // if the sizes are equal continue 
+    if(this->size() == check.size())
+    {
+        if(*(this->first->data()) > *(check.first->data()))
+        {
+            return 1;
+        }
+        else 
+        {
+            return 0;
+        }
+    }
+    // else return 0 
+    else 
+    {
+        return 0;
+    }
+}
+
+// 1 for less than 
+// 0 for greater than
+bool myStringVector::operator<=(const myStringVector &check) const
+{
+    // if the sizes are equal continue 
+    if(this->size() == check.size())
+    {
+        if(*(this->first->data()) <= *(check.first->data()))
+        {
+            return 1;
+        }
+        else 
+        {
+            return 0;
+        }
+    }
+    // else return 0 
+    else 
+    {
+        return 0;
+    }
+}
+
+// 1 for less than 
+// 0 for greater than
+bool myStringVector::operator>=(const myStringVector &check) const
+{
+    // if the sizes are equal continue 
+    if(this->size() == check.size())
+    {
+        if(*(this->first->data()) >= *(check.first->data()))
+        {
+            return 1;
+        }
+        else 
+        {
+            return 0;
+        }
+    }
+    // else return 0 
+    else 
+    {
+        return 0;
+    }
 }
